@@ -1,0 +1,52 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Skeleton serverless DAG (Split -> Extract -> Classify) for ML-guided pre-warming
+
+Globals:
+  Function:
+    Runtime: python3.12
+    CodeUri: src/
+    Timeout: 60
+    MemorySize: 1024
+
+Resources:
+  SplitFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: orion-split
+      Handler: split.handler
+
+  ExtractFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: orion-extract
+      Handler: extract.handler
+
+  ClassifyFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: orion-classify
+      Handler: classify.handler
+
+  VideoDag:
+    Type: AWS::Serverless::StateMachine
+    Properties:
+      Name: orion-video-dag
+      Type: EXPRESS
+      DefinitionUri: statemachine/dag.asl.json
+      DefinitionSubstitutions:
+        SplitFunctionArn: !GetAtt SplitFunction.Arn
+        ExtractFunctionArn: !GetAtt ExtractFunction.Arn
+        ClassifyFunctionArn: !GetAtt ClassifyFunction.Arn
+      Policies:
+        - LambdaInvokePolicy:
+            FunctionName: !Ref SplitFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ExtractFunction
+        - LambdaInvokePolicy:
+            FunctionName: !Ref ClassifyFunction
+
+Outputs:
+  StateMachineArn:
+    Description: ARN of the DAG state machine (used by the runner script)
+    Value: !Ref VideoDag

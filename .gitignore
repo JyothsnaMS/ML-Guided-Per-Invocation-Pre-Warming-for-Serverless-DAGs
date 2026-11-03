@@ -1,1 +1,6 @@
 Orion-OSDI22/
+.venv/
+.aws-sam/
+Orion-OSDI22/
+__pycache__/
+*.csv

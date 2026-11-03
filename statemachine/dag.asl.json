@@ -1,0 +1,40 @@
+{
+  "Comment": "Skeleton video-analytics DAG: Split -> Map(Extract -> Classify)",
+  "StartAt": "Split",
+  "States": {
+    "Split": {
+      "Type": "Task",
+      "Resource": "${SplitFunctionArn}",
+      "ResultPath": "$.split",
+      "Next": "ProcessChunks"
+    },
+    "ProcessChunks": {
+      "Type": "Map",
+      "ItemsPath": "$.split.chunks",
+      "MaxConcurrency": 0,
+      "ResultPath": "$.chunk_results",
+      "Iterator": {
+        "StartAt": "Extract",
+        "States": {
+          "Extract": {
+            "Type": "Task",
+            "Resource": "${ExtractFunctionArn}",
+            "ResultPath": "$.extract",
+            "Next": "Classify"
+          },
+          "Classify": {
+            "Type": "Task",
+            "Resource": "${ClassifyFunctionArn}",
+            "Parameters": {
+              "chunk_id.$": "$.chunk_id",
+              "frames.$": "$.extract.frames"
+            },
+            "ResultPath": "$.classify",
+            "End": true
+          }
+        }
+      },
+      "End": true
+    }
+  }
+}
