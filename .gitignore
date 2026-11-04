@@ -4,3 +4,5 @@ Orion-OSDI22/
 Orion-OSDI22/
 __pycache__/
 *.csv
+.venv/
+__pycache__/
