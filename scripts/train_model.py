@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FEATURES = ["video_seconds", "chunks"]
 TARGET = "split_ms"
-TAUS = [0.5, 0.7, 0.9]
+TAUS = [0.1, 0.3, 0.5, 0.7, 0.9]
 
 
 # ---------------------------------------------------------------- data
