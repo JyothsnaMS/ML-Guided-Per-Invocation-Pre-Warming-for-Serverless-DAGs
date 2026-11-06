@@ -4,7 +4,7 @@ import time
 
 # Module-level code runs only when a new container starts. Sleeping here stands in
 # for loading an ML model, so this stage has a large, controllable cold start.
-MODEL_LOAD_S = 3.0
+MODEL_LOAD_S = 4.615
 time.sleep(MODEL_LOAD_S)
 
 from common import begin, end, is_warmup, warmup_response  # noqa: E402

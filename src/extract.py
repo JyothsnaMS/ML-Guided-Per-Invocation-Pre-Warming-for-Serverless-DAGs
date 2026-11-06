@@ -2,8 +2,9 @@
 import random
 import time
 
-from common import begin, end, is_warmup, warmup_response
+time.sleep(0.35)
 
+from common import begin, end, is_warmup, warmup_response
 
 def handler(event, context):
     if is_warmup(event):

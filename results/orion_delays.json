@@ -1,0 +1,11 @@
+{
+  "delay_split_to_extract_s": 0.6,
+  "delay_extract_to_classify_s": 0.0,
+  "score_p95_util_per_ms": 0.00027420593431428904,
+  "est_p50_e2e_ms": 5015.0,
+  "est_p95_e2e_ms": 7110.0,
+  "est_mean_util": 0.7605746358741869,
+  "source": "our profiles (results/profiles.csv)",
+  "init_extract_ms": 350,
+  "init_classify_ms": 4615
+}
